@@ -7,9 +7,9 @@ class Transaction:
         self.amount = amount
 
 
-balance = 0
-withdraw_attempts = 3
-withdraw_amount_limit = 500
+balance: int = 0
+withdraw_attempts: int = 3
+withdraw_amount_limit: int = 10000
 extracts: List[Transaction] = []
 
 start_menu = """
@@ -21,37 +21,46 @@ start_menu = """
 """
 
 
-
 def get_balance():
-    print(f"Current balance: ", balance)
+    print(f"================= Current balance ================= \n", balance)
 
 def deposit(amount: int):
     global balance
     balance += amount
     transaction = Transaction('deposit', amount)
     extracts.append(transaction)
-    print("Deposit Success!")
+    print(f"================= DEPOSIT SUCCESS ================= \n new balance: ", balance)
 
 
 def withdraw(amount: int):
     global balance
-    if withdraw_attempts > 1:
+    global withdraw_attempts
+    global withdraw_amount_limit
+    if withdraw_attempts > 0:
         if balance < amount:
-            print("Without balance!")
+            print(f"================= WITHOUT BALANCE ================= \n balance: ", balance)
+
         elif withdraw_amount_limit <= 0:
-            print("Withdraw amount daily limit reached!")
+            print(f"================= WITHDRAW AMOUNT LIMIT REACHED =================")
         else:
             balance -= amount
+            withdraw_attempts -= 1
+            withdraw_amount_limit -= amount
             transaction = Transaction('withdraw', amount)
             extracts.append(transaction)
-            print("Withdraw Success!")
+            print(f"================= WITHDRAW SUCCESS ================= \n new balance: ", balance)
+
     else:
-        print("Withdraw limit reached")
+        print(f"================= WITHDRAWAL ATTEMPT LIMIT REACHED =================")
 
 
 def get_extracts():
+    global balance
+    print(f"================= Transactions ================= \n")
     for transaction in extracts:
-        print(f"Transaction type: {transaction.type}, Amount: {transaction.amount}")
+        print(f" {transaction.type.upper()} - {transaction.amount}")
+
+    print(f"\n Balance:", balance)
 
 
 while True:
@@ -68,3 +77,6 @@ while True:
         get_extracts()
     elif option == 5:
         print("Thanks for use our system!")
+    else:
+        print("Option not found!")
+
