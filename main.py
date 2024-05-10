@@ -77,6 +77,7 @@ while True:
         get_extracts()
     elif option == 5:
         print("Thanks for use our system!")
+        break
     else:
         print("Option not found!")
 
