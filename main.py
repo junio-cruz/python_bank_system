@@ -3,8 +3,10 @@ from typing import List
 
 
 class Account:
-    def __init__(self, name: str, password: str):
-        self.user_name = name
+    def __init__(self, user_name: str, user_birth_date: str, password: str, account_type: str):
+        self.account_type = account_type
+        self.user_name = user_name
+        self.user_birth_date = user_birth_date
         self.number = random.randint(0, 9999999)
         self.agency = random.randint(0, 9999)
         self.password = password
@@ -39,12 +41,6 @@ account_menu = """
 """
 
 
-def get_account(account_agency: int, account_number: int):
-    for account in accounts:
-        if account.agency == account_agency and account.number == account_number:
-            return account
-
-
 def login_account():
     global current_account
     success: bool = False
@@ -57,6 +53,8 @@ def login_account():
                 current_account = account
                 print(f"================= LOGGED ACCOUNT ================= \n")
                 print(f"Name: {current_account.user_name.upper()} \n"
+                      f"BirthDate: {account.user_birth_date} \n"
+                      f"Type: {account.account_type} \n"
                       f"Agency: {current_account.agency} \n"
                       f"Number: {current_account.number} \n"
                       f"Balance: {current_account.balance}")
@@ -70,12 +68,15 @@ def login_account():
 
 
 def register_account():
-    user_name = str(input("Please, insert account name:"))
+    user_name = str(input("Please, insert name:"))
+    user_birth_date = str(input("Please, insert birthdate on format 01/01/2000:"))
     password = str(input("Please, insert password:"))
-    account = Account(user_name, password)
+    account = Account(user_name, user_birth_date, password,'cc')
     accounts.append(account)
     print(f"================= ACCOUNT CREATED ================= \n")
     print(f"Name: {account.user_name.upper()} \n"
+          f"BirthDate: {account.user_birth_date} \n"
+          f"Type: {account.account_type} \n"
           f"Agency: {account.agency} \n"
           f"Number: {account.number} \n"
           f"Balance: {account.balance}")
